@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Departments - StaffConnect</title>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo-icon">
+          <i class="fas fa-users-gear"></i>
+        </div>
+        <div class="sidebar-brand">
+          <h1>StaffConnect</h1>
+          <span>Organization</span>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Navigation</div>
+        <a href="javascript:void(0)" onclick="goToMyDashboard()" class="nav-item">
+          <i class="fas fa-arrow-left"></i>
+          <span>Back to Dashboard</span>
+        </a>
+        <a href="departments.html" class="nav-item active">
+          <i class="fas fa-building"></i>
+          <span>Departments</span>
+        </a>
+      </div>
+
+      <!-- User Mini Profile -->
+      <div class="sidebar-footer">
+        <div class="user-mini-profile">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&h=256&q=80" 
+               alt="Avatar" class="user-avatar-mini" id="userAvatarDisplay">
+          <div class="user-mini-info">
+            <div class="user-mini-name" id="userNameDisplay">User</div>
+            <div class="user-mini-role" id="userRoleDisplay">Staff</div>
+          </div>
+          <button class="logout-btn-mini" title="Sign Out" onclick="logout()">
+            <i class="fas fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" id="mobileSidebarToggle" title="Toggle Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="page-title">
+            <h2>Department Directory</h2>
+            <p>Operational divisions, department leaders &amp; resource allocations</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button class="btn btn-primary" id="openAddDeptModalBtn">
+            <i class="fas fa-plus"></i> Add Department
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Body -->
+      <div class="content-body">
+        
+        <div id="departmentsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;">
+          <p class="text-muted">Loading departments...</p>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Add Department Modal -->
+  <div class="modal-backdrop" id="addDeptModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fas fa-building" style="color:var(--primary); margin-right:8px;"></i> Create New Department</h3>
+        <button class="modal-close-btn" onclick="closeAddDeptModal()">&times;</button>
+      </div>
+      <form id="addDepartmentForm">
+        <div class="modal-body">
+          <div class="form-grid">
+            
+            <div class="form-group">
+              <label for="deptName">Department Name *</label>
+              <input type="text" id="deptName" class="form-control" placeholder="e.g. Cybersecurity" required>
+            </div>
+
+            <div class="form-group">
+              <label for="deptCode">Department Code *</label>
+              <input type="text" id="deptCode" class="form-control" placeholder="e.g. SEC" required>
+            </div>
+
+            <div class="form-group">
+              <label for="deptHead">Department Head</label>
+              <input type="text" id="deptHead" class="form-control" placeholder="e.g. Robert Zhang">
+            </div>
+
+            <div class="form-group">
+              <label for="deptLocation">Office Location</label>
+              <input type="text" id="deptLocation" class="form-control" placeholder="e.g. Building C - Floor 3">
+            </div>
+
+            <div class="form-group form-full">
+              <label for="deptBudget">Annual Budget ($)</label>
+              <input type="number" id="deptBudget" class="form-control" placeholder="500000" min="0">
+            </div>
+
+            <div class="form-group form-full">
+              <label for="deptDescription">Department Description</label>
+              <textarea id="deptDescription" class="form-control" placeholder="Describe the mission and scope of this department..."></textarea>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeAddDeptModal()">Cancel</button>
+          <button type="submit" id="submitAddDeptBtn" class="btn btn-primary">Create Department</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/departments.js"></script>
+  <script>
+    function goToMyDashboard() {
+      const user = api.getUser();
+      if (user && user.role === 'ROLE_ADMIN') {
+        window.location.href = 'admin-dashboard.html';
+      } else {
+        window.location.href = 'employee-dashboard.html';
+      }
+    }
+  </script>
+</body>
+</html>

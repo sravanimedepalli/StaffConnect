@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Portal - StaffConnect</title>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo-icon">
+          <i class="fas fa-users-gear"></i>
+        </div>
+        <div class="sidebar-brand">
+          <h1>StaffConnect</h1>
+          <span>Staff Portal</span>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Navigation</div>
+        <button class="nav-item active" data-tab-target="tabTeam" style="width:100%; text-align:left; background:none; border:none;">
+          <i class="fas fa-house-user"></i>
+          <span>My Workspace</span>
+        </button>
+        <button class="nav-item" data-tab-target="tabDirectory" style="width:100%; text-align:left; background:none; border:none;">
+          <i class="fas fa-address-book"></i>
+          <span>Staff Directory</span>
+        </button>
+        <button class="nav-item" data-tab-target="tabProfile" style="width:100%; text-align:left; background:none; border:none;">
+          <i class="fas fa-user-gear"></i>
+          <span>My Profile</span>
+        </button>
+        <button class="nav-item" data-tab-target="tabSecurity" style="width:100%; text-align:left; background:none; border:none;">
+          <i class="fas fa-key"></i>
+          <span>Account Security</span>
+        </button>
+        <a href="departments.html" class="nav-item">
+          <i class="fas fa-building"></i>
+          <span>Departments</span>
+        </a>
+      </div>
+
+      <!-- User Mini Profile -->
+      <div class="sidebar-footer">
+        <div class="user-mini-profile">
+          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=256&h=256&q=80" 
+               alt="Avatar" class="user-avatar-mini" id="userAvatarDisplay">
+          <div class="user-mini-info">
+            <div class="user-mini-name" id="userNameDisplay">Employee</div>
+            <div class="user-mini-role" id="userRoleDisplay">Staff Member</div>
+          </div>
+          <button class="logout-btn-mini" title="Sign Out" onclick="logout()">
+            <i class="fas fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" id="mobileSidebarToggle" title="Toggle Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="page-title">
+            <h2>Employee Workspace</h2>
+            <p>Welcome to your personal workforce dashboard &amp; directory hub</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="last-login-badge">
+            <i class="fas fa-clock" style="color:var(--primary);"></i>
+            <span>Last Login: <strong id="userLastLogin">Loading...</strong></span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Body -->
+      <div class="content-body">
+
+        <!-- Personalized Hero Welcome Card -->
+        <div class="stat-card" style="padding: 28px; margin-bottom: 28px; background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); color: white; border: none; box-shadow: var(--shadow-lg);">
+          <div style="display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=256&h=256&q=80" 
+                 alt="Employee Avatar" id="heroAvatar"
+                 style="width: 84px; height: 84px; border-radius: var(--radius-full); object-fit: cover; border: 4px solid rgba(255,255,255,0.3); box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+            
+            <div style="flex: 1; min-width: 240px;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px; flex-wrap: wrap;">
+                <h2 style="font-size: 1.6rem; font-weight: 800; color: white;" id="heroEmployeeName">Loading Profile...</h2>
+                <span style="background: rgba(255,255,255,0.2); backdrop-filter: blur(4px); padding: 3px 10px; border-radius: var(--radius-full); font-size: 0.78rem; font-family: monospace;" id="heroEmpId">EMP-XXXX</span>
+              </div>
+              <p style="font-size: 1rem; color: #bfdbfe; font-weight: 500;">
+                <span id="heroDesignation">Staff</span> &bull; <span id="heroDepartment">Engineering</span>
+              </p>
+            </div>
+
+            <div style="display: flex; gap: 24px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 24px; flex-wrap: wrap;">
+              <div>
+                <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #93c5fd; display: block;">Tenure</span>
+                <strong style="font-size: 1.15rem; color: white;" id="heroTenure">--</strong>
+              </div>
+              <div>
+                <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #93c5fd; display: block;">Department Head</span>
+                <strong style="font-size: 1.15rem; color: white;" id="heroDeptHead">--</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================================================================
+             Tab Panes
+             =================================================================== -->
+
+        <!-- Tab 1: Overview & Team -->
+        <div id="tabTeam" class="tab-content-pane">
+          
+          <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 24px;">
+            <div class="stat-card">
+              <div class="stat-info">
+                <p>Company Colleagues</p>
+                <h3 id="statTotalColleagues">0</h3>
+                <div class="stat-trend up"><i class="fas fa-users"></i> Connected across departments</div>
+              </div>
+              <div class="stat-icon blue"><i class="fas fa-id-card"></i></div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-info">
+                <p>Active Departments</p>
+                <h3 id="statTotalDepts">0</h3>
+                <div class="stat-trend neutral"><i class="fas fa-building"></i> Organizational units</div>
+              </div>
+              <div class="stat-icon sky"><i class="fas fa-sitemap"></i></div>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <h3>My Department Teammates</h3>
+                <span>Colleagues working alongside you</span>
+              </div>
+              <span class="badge-tag badge-role"><i class="fas fa-people-group"></i> Department Team</span>
+            </div>
+            
+            <div id="teammatesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+              <p class="text-muted" style="padding: 16px;">Loading your teammates...</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Tab 2: Company Directory -->
+        <div id="tabDirectory" class="tab-content-pane" style="display: none;">
+          <div class="table-card">
+            <div class="table-toolbar">
+              <div class="toolbar-search" style="min-width: 320px;">
+                <i class="fas fa-search"></i>
+                <input type="text" id="colleagueSearch" placeholder="Search colleagues by name, department, or job title...">
+              </div>
+              <span style="font-size: 0.85rem; color: var(--text-muted);">
+                <i class="fas fa-info-circle"></i> Showing company directory
+              </span>
+            </div>
+
+            <div style="padding: 24px;">
+              <div id="colleagueCardsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+                <p class="text-muted">Loading directory...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: My Profile -->
+        <div id="tabProfile" class="tab-content-pane" style="display: none;">
+          <div class="chart-card">
+            <div class="chart-header">
+              <div>
+                <h3>Personal Profile Information</h3>
+                <span>Manage your profile photo, contact details, bio, and technical competencies</span>
+              </div>
+              <i class="fas fa-id-badge" style="color: var(--primary); font-size: 1.2rem;"></i>
+            </div>
+
+            <!-- Profile Summary & Avatar Upload Header -->
+            <div class="avatar-upload-box" style="margin-bottom: 24px;">
+              <img id="profileAvatarPreview" class="avatar-preview-lg" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=256&h=256&q=80" alt="Preview">
+              <div style="flex: 1;">
+                <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 4px;">Profile Picture</h4>
+                <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px;">
+                  Upload a professional JPG, PNG, WEBP, or GIF (max 5 MB).
+                </p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                  <label class="btn btn-secondary btn-sm" style="cursor: pointer; margin: 0;">
+                    <i class="fas fa-camera"></i> Upload New Photo
+                    <input type="file" id="profileAvatarFileInput" accept="image/png,image/jpeg,image/webp,image/gif" style="display: none;">
+                  </label>
+                  <span id="profileAvatarUploadStatus" style="font-size: 0.8rem; color: var(--text-muted);"></span>
+                </div>
+              </div>
+            </div>
+
+            <form id="updateProfileForm">
+              
+              <!-- Personal Info Section -->
+              <div class="form-section-title">
+                <i class="fas fa-user"></i> Personal &amp; Contact Details
+              </div>
+
+              <div class="form-grid">
+                
+                <!-- Phone with Verification Badge -->
+                <div class="form-group form-full">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <label for="profilePhone" style="margin-bottom: 0;">Direct Phone Number</label>
+                    <span id="phoneVerifiedStatusBadge" class="badge-tag badge-leave" style="font-size: 0.72rem;">
+                      <i class="fas fa-exclamation-circle"></i> Unverified
+                    </span>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <input type="tel" id="profilePhone" class="form-control" placeholder="+1 (555) 000-0000" style="flex: 1;">
+                    <button type="button" id="openPhoneVerifyModalBtn" class="btn btn-secondary btn-sm" style="white-space: nowrap;">
+                      <i class="fas fa-mobile-screen-button"></i> Verify Phone OTP
+                    </button>
+                  </div>
+                </div>
+
+                <!-- DOB -->
+                <div class="form-group">
+                  <label for="profileDob">Date of Birth</label>
+                  <input type="date" id="profileDob" class="form-control">
+                </div>
+
+                <!-- Gender -->
+                <div class="form-group">
+                  <label for="profileGender">Gender</label>
+                  <select id="profileGender" class="form-control">
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Non-binary">Non-binary</option>
+                    <option value="Prefer not to say">Prefer not to say</option>
+                  </select>
+                </div>
+
+                <!-- Avatar URL (manual fallback) -->
+                <div class="form-group form-full">
+                  <label for="profileAvatar">Avatar Image URL (or upload above)</label>
+                  <input type="url" id="profileAvatar" class="form-control" placeholder="https://example.com/avatar.jpg">
+                </div>
+
+                <!-- Address -->
+                <div class="form-group form-full">
+                  <label for="profileAddress">Work Location / Office Address</label>
+                  <input type="text" id="profileAddress" class="form-control" placeholder="Building, Floor, Desk Number or City">
+                </div>
+
+                <!-- Skills -->
+                <div class="form-group form-full">
+                  <label for="profileSkills">Skills &amp; Expertise (comma separated)</label>
+                  <input type="text" id="profileSkills" class="form-control" placeholder="Java, Spring Boot, React, Cloud, Team Leadership">
+                </div>
+
+                <!-- Bio -->
+                <div class="form-group form-full">
+                  <label for="profileBio">Professional Bio</label>
+                  <textarea id="profileBio" class="form-control" style="min-height: 100px;" placeholder="Tell colleagues about your experience and core competencies..."></textarea>
+                </div>
+
+              </div>
+
+              <!-- Official Employment Details (Read-only for employee) -->
+              <div class="form-section-title" style="margin-top: 24px;">
+                <i class="fas fa-briefcase"></i> Official Record (Managed by Administrator)
+              </div>
+
+              <div class="form-grid" style="background: var(--bg-main); padding: 16px; border-radius: var(--radius-md); margin-bottom: 20px;">
+                <div class="form-group">
+                  <label style="font-size: 0.75rem; text-transform: uppercase;">Employee ID</label>
+                  <strong id="roEmployeeId" style="display: block; font-family: monospace; font-size: 0.95rem; color: var(--text-main);">EMP-XXXX</strong>
+                </div>
+                <div class="form-group">
+                  <label style="font-size: 0.75rem; text-transform: uppercase;">Department</label>
+                  <strong id="roDepartment" style="display: block; font-size: 0.95rem; color: var(--text-main);">Engineering</strong>
+                </div>
+                <div class="form-group">
+                  <label style="font-size: 0.75rem; text-transform: uppercase;">Designation</label>
+                  <strong id="roDesignation" style="display: block; font-size: 0.95rem; color: var(--text-main);">Software Engineer</strong>
+                </div>
+                <div class="form-group">
+                  <label style="font-size: 0.75rem; text-transform: uppercase;">Employment Status</label>
+                  <strong id="roStatus" style="display: block; font-size: 0.95rem; color: var(--primary);">ACTIVE</strong>
+                </div>
+              </div>
+
+              <div style="margin-top: 24px; display: flex; justify-content: flex-end;">
+                <button type="submit" id="saveProfileBtn" class="btn btn-primary">
+                  <i class="fas fa-save"></i> Save Profile Details
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Tab 4: Account Security -->
+        <div id="tabSecurity" class="tab-content-pane" style="display: none;">
+          <div class="chart-card" style="max-width: 580px;">
+            <div class="chart-header">
+              <div>
+                <h3>Change Account Password</h3>
+                <span>Update your password to keep your account secure</span>
+              </div>
+              <i class="fas fa-lock" style="color: var(--primary); font-size: 1.2rem;"></i>
+            </div>
+
+            <form id="changePasswordForm">
+              <div class="form-group" style="margin-bottom: 16px;">
+                <label for="currentPassword">Current Password *</label>
+                <input type="password" id="currentPassword" class="form-control" required placeholder="Enter current password">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 16px;">
+                <label for="newPassword">New Password *</label>
+                <input type="password" id="newPassword" class="form-control" required minlength="6" placeholder="At least 6 characters">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 24px;">
+                <label for="confirmPassword">Confirm New Password *</label>
+                <input type="password" id="confirmPassword" class="form-control" required minlength="6" placeholder="Repeat new password">
+              </div>
+
+              <button type="submit" id="submitPasswordBtn" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                <i class="fas fa-lock"></i> Update Password
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Phone OTP Modal for Employee -->
+  <div class="modal-backdrop" id="employeeOtpModal">
+    <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3><i class="fas fa-shield-halved" style="color: var(--primary); margin-right: 8px;"></i> Verify Phone via SMS OTP</h3>
+        <button class="modal-close-btn" onclick="closeEmployeeOtpModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 16px;">
+          We will send a 6-digit one-time verification passcode to your phone number.
+        </p>
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="otpModalPhone">Phone Number</label>
+          <input type="tel" id="otpModalPhone" class="form-control" placeholder="+15551234567">
+        </div>
+
+        <button type="button" id="empSendOtpBtn" class="btn btn-secondary" style="width: 100%; justify-content: center; margin-bottom: 16px;" onclick="sendEmployeeOtp()">
+          <i class="fas fa-paper-plane"></i> Send Verification Code
+        </button>
+
+        <div id="empOtpInputGroup" style="display: none; background: #f8fafc; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px;">
+          <label for="empOtpCode" style="font-size: 0.82rem; font-weight: 600; color: var(--text-main); display: block; margin-bottom: 6px;">
+            Enter 6-Digit Passcode
+          </label>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="empOtpCode" class="form-control" maxlength="6" placeholder="123456" style="letter-spacing: 4px; font-weight: 700; font-size: 1.1rem; text-align: center;">
+            <button type="button" id="empVerifyOtpBtn" class="btn btn-success" onclick="verifyEmployeeOtp()">
+              Verify
+            </button>
+          </div>
+          <small id="empOtpHint" style="display: block; margin-top: 6px; font-size: 0.76rem; color: var(--text-muted);"></small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeEmployeeOtpModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/employee.js"></script>
+</body>
+</html>

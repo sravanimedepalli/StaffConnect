@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StaffConnect - Workforce Management Portal</title>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="login-body">
+
+  <!-- =======================================================================
+       1. Welcome & Splash Screen Animation
+       ======================================================================= -->
+  <div id="splashScreen" class="splash-overlay">
+    <div class="splash-card">
+      <div class="splash-logo-box">
+        <i class="fas fa-users-gear"></i>
+      </div>
+      <h1 class="splash-title">StaffConnect</h1>
+      <p class="splash-tagline">Connecting People, Simplifying Workforce Management.</p>
+      <div class="splash-loader-bar">
+        <div class="splash-loader-fill"></div>
+      </div>
+      <button type="button" class="splash-skip-btn" onclick="dismissSplash()">
+        Enter Portal <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       2. Premium Corporate Login Card
+       ======================================================================= -->
+  <div class="login-card-container">
+    <div class="login-card">
+      
+      <!-- Brand Header -->
+      <div class="login-brand">
+        <div class="login-logo">
+          <i class="fas fa-users-gear"></i>
+        </div>
+        <h1>StaffConnect</h1>
+        <p>Connecting People, Simplifying Workforce Management</p>
+      </div>
+
+      <!-- Demo Accounts Picker (Hackathon Special) -->
+      <div class="demo-accounts-box">
+        <div class="demo-title">
+          <i class="fas fa-bolt" style="color: #f59e0b;"></i> Quick Fill Demo Accounts
+        </div>
+        <div class="demo-btn-group">
+          <button type="button" class="btn-demo" onclick="fillDemo('admin')">
+            <i class="fas fa-shield-alt" style="color:var(--primary);"></i> Admin Demo
+          </button>
+          <button type="button" class="btn-demo" onclick="fillDemo('employee')">
+            <i class="fas fa-user" style="color:var(--success-text);"></i> Staff Demo
+          </button>
+        </div>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm">
+        <div class="form-group" style="margin-bottom: 18px;">
+          <label for="loginEmail">Corporate Email Address</label>
+          <div style="position: relative;">
+            <input 
+              type="email" 
+              id="loginEmail" 
+              class="form-control" 
+              placeholder="name@staffconnect.com" 
+              required 
+              style="padding-left: 38px;"
+            >
+            <i class="fas fa-envelope" style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+          </div>
+        </div>
+
+        <div class="form-group password-group" style="margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <label for="loginPassword">Password</label>
+            <a href="javascript:void(0)" onclick="openForgotPasswordModal()" style="font-size: 0.78rem; font-weight: 600;">Forgot password?</a>
+          </div>
+          <div style="position: relative;">
+            <input 
+              type="password" 
+              id="loginPassword" 
+              class="form-control" 
+              placeholder="••••••••••••" 
+              required 
+              style="padding-left: 38px; padding-right: 38px;"
+            >
+            <i class="fas fa-lock" style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+            <i class="fas fa-eye toggle-password" style="position: absolute; right: 14px; top: 14px; color: var(--text-muted); cursor: pointer;" title="Toggle Password Visibility"></i>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; font-size: 0.85rem;">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-secondary);">
+            <input type="checkbox" id="rememberMe" checked style="accent-color: var(--primary);"> Remember session
+          </label>
+          <span style="color: var(--text-muted); font-size: 0.78rem;">Role-based auto-routing</span>
+        </div>
+
+        <button type="submit" id="loginSubmitBtn" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 12px; font-size: 0.95rem;">
+          Sign In to Dashboard <i class="fas fa-arrow-right"></i>
+        </button>
+      </form>
+
+      <!-- Security Notice -->
+      <div style="margin-top: 24px; text-align: center; border-top: 1px solid var(--border-light); padding-top: 18px;">
+        <span style="font-size: 0.75rem; color: var(--text-muted); display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fas fa-lock"></i> Protected by Spring Security 6 &amp; Stateless JWT
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       3. Forgot Password / Mobile OTP Reset Modal
+       ======================================================================= -->
+  <div class="modal-backdrop" id="forgotPasswordModal">
+    <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3><i class="fas fa-key" style="color: var(--primary);"></i> Reset Password</h3>
+        <button type="button" class="modal-close-btn" onclick="closeForgotPasswordModal()">&times;</button>
+      </div>
+
+      <!-- Step 1: Enter Email or Phone -->
+      <form id="forgotStep1Form">
+        <div class="modal-body">
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 18px;">
+            Enter your registered corporate email or mobile number to receive a verification code or secure reset link.
+          </p>
+          <div class="form-group">
+            <label for="resetIdentifier">Email Address or Phone Number *</label>
+            <input type="text" id="resetIdentifier" class="form-control" placeholder="name@staffconnect.com or +1 (555) 012-3456" required>
+            <span class="invalid-feedback">Please enter a valid email or phone number</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeForgotPasswordModal()">Cancel</button>
+          <button type="submit" id="sendResetCodeBtn" class="btn btn-primary">
+            Send Reset Code <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Step 2: Enter Code & New Password -->
+      <form id="forgotStep2Form" style="display: none;">
+        <div class="modal-body">
+          <div style="background: var(--primary-subtle); padding: 12px 14px; border-radius: var(--radius-md); border-left: 4px solid var(--primary); margin-bottom: 18px; font-size: 0.84rem; color: var(--text-main);" id="resetTargetNotice">
+            Verification code sent!
+          </div>
+
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label for="resetOtpCode">6-Digit Verification Code / Token *</label>
+            <input type="text" id="resetOtpCode" class="form-control" placeholder="e.g. 123456" maxlength="12" required style="font-family: monospace; font-size: 1.1rem; letter-spacing: 0.15em; text-align: center;">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label for="resetNewPassword">New Password *</label>
+            <input type="password" id="resetNewPassword" class="form-control" placeholder="At least 6 characters" minlength="6" required>
+          </div>
+
+          <div class="form-group">
+            <label for="resetConfirmPassword">Confirm New Password *</label>
+            <input type="password" id="resetConfirmPassword" class="form-control" placeholder="Repeat new password" minlength="6" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="backToStep1()">Back</button>
+          <button type="submit" id="submitNewPasswordBtn" class="btn btn-primary">
+            Save New Password <i class="fas fa-check"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       4. Account Activation / Password Setup Modal (from Welcome Email link)
+       ======================================================================= -->
+  <div class="modal-backdrop" id="activationModal">
+    <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3><i class="fas fa-user-check" style="color: var(--success-text);"></i> Activate Your Account</h3>
+        <button type="button" class="modal-close-btn" onclick="closeActivationModal()">&times;</button>
+      </div>
+      <form id="activationForm">
+        <div class="modal-body">
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 18px;">
+            Welcome to StaffConnect! Please create your private permanent password to complete your account setup.
+          </p>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label for="activationEmail">Work Email</label>
+            <input type="email" id="activationEmail" class="form-control" readonly style="background: var(--bg-page);">
+          </div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label for="activationPassword">Create Password *</label>
+            <input type="password" id="activationPassword" class="form-control" placeholder="At least 6 characters" minlength="6" required>
+          </div>
+          <div class="form-group">
+            <label for="activationConfirmPassword">Confirm Password *</label>
+            <input type="password" id="activationConfirmPassword" class="form-control" placeholder="Repeat password" minlength="6" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" id="submitActivationBtn" class="btn btn-primary" style="width: 100%; justify-content: center;">
+            Activate Account &amp; Proceed <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+</body>
+</html>
