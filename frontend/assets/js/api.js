@@ -2,7 +2,7 @@
  * StaffConnect - Centralized API Service, Animations & Toast Utility
  */
 
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = 'https://staffconnect-backend.onrender.com/api';
 
 const api = {
   getToken() {
